@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evento Cultural y Deportivo Interclases · I.E. María Mediadora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#C8102E; --red-dk:#9E0E24; --black:#1A1A1A;
+    --paper:#FFFFFF; --line:#E6E0DC; --soft:#FBF9F8;
+    --muted:#6B6460; --gold:#C8102E;
+    --green:#1E8E5A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;background:var(--soft);color:var(--black);
+    line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:60px;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px}
+  .serif{font-family:'Libre Baskerville',Georgia,serif}
+
+  /* ---- Letterhead ---- */
+  header{
+    background:var(--red);color:#fff;text-align:center;
+    padding:30px 18px 34px;position:relative;
+    border-bottom:5px solid var(--black);
+  }
+  .crest{margin:0 auto 14px;width:46px;height:46px;display:block}
+  .institution{
+    font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;
+    font-weight:600;opacity:.92;margin-bottom:2px;
+  }
+  .place{font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.7;margin-bottom:18px}
+  header h1{
+    font-family:'Libre Baskerville',Georgia,serif;font-weight:700;
+    font-size:clamp(30px,7vw,48px);line-height:1.05;letter-spacing:.01em;
+  }
+  .role{font-size:14px;opacity:.92;margin-top:8px}
+  .kicker{font-size:13px;letter-spacing:.34em;text-transform:uppercase;font-weight:600;margin-top:9px;opacity:.95}
+  .lema{
+    margin-top:18px;font-style:italic;font-family:'Libre Baskerville',serif;
+    font-size:13.5px;opacity:.85;
+  }
+  .lema::before,.lema::after{content:"·";margin:0 8px;opacity:.6}
+
+  .guide{
+    background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);
+    border-radius:8px;padding:13px 16px;margin-top:22px;font-size:13.5px;color:var(--muted);
+  }
+
+  /* ---- Setup ---- */
+  .setup{
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:18px;margin-top:16px;display:grid;gap:16px;
+  }
+  .lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
+  input[type=text]{
+    width:100%;background:#fff;border:1px solid var(--line);color:var(--black);
+    border-radius:8px;padding:12px 14px;font-size:15px;font-family:inherit;
+  }
+  input[type=text]:focus{outline:2px solid var(--red);outline-offset:1px;border-color:transparent}
+  textarea{width:100%;background:#fff;border:1px solid var(--line);color:var(--black);border-radius:8px;padding:12px 14px;font-size:15px;font-family:inherit;min-height:78px;resize:vertical}
+  textarea:focus{outline:2px solid var(--red);outline-offset:1px;border-color:transparent}
+  .grades{display:flex;flex-wrap:wrap;gap:8px}
+  .grade{
+    border:1px solid var(--line);background:#fff;color:var(--muted);
+    padding:9px 16px;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;
+    transition:.15s;font-family:inherit;
+  }
+  .grade:hover{border-color:var(--red);color:var(--black)}
+  .grade.on{background:var(--red);border-color:var(--red);color:#fff}
+
+  /* ---- Category cards ---- */
+  .cat{
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    margin-top:16px;overflow:hidden;
+  }
+  .cat-head{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:16px 18px;background:var(--soft);border-bottom:1px solid var(--line);
+  }
+  .cat-head h2{
+    font-family:'Libre Baskerville',serif;font-weight:700;font-size:21px;letter-spacing:.01em;
+  }
+  .cat-score{
+    font-family:'Libre Baskerville',serif;font-weight:700;font-size:22px;color:var(--red);line-height:1;
+  }
+  .cat-score small{font-size:12px;color:var(--muted);font-family:'Inter';font-weight:500}
+  .crit{padding:13px 18px;border-top:1px solid var(--line)}
+  .crit:first-child{border-top:none}
+  .crit-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+  .crit-name{font-size:15px;font-weight:500}
+  .crit-val{
+    font-variant-numeric:tabular-nums;font-weight:700;font-size:15px;color:var(--red);
+    min-width:30px;text-align:center;background:#fff;border:1px solid var(--red);
+    border-radius:6px;padding:2px 8px;
+  }
+  .slider-row{display:flex;align-items:center;gap:10px}
+  .end{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:99px;
+    background:var(--line);cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+    background:#fff;border:4px solid var(--red);box-shadow:0 1px 4px rgba(0,0,0,.25);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--red);
+  }
+
+  /* ---- Total ---- */
+  .total-bar{
+    position:sticky;bottom:0;z-index:5;margin-top:22px;
+    background:var(--black);color:#fff;border-radius:12px;
+    padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+    box-shadow:0 -8px 28px rgba(0,0,0,.22);
+  }
+  .total-lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#C9C2BE;font-weight:600;margin-bottom:2px}
+  .total-num{font-family:'Libre Baskerville',serif;font-weight:700;font-size:38px;line-height:.9}
+  .total-num small{font-size:15px;color:#C9C2BE;font-family:'Inter';font-weight:500}
+  button.save{
+    background:var(--red);color:#fff;border:none;border-radius:9px;
+    padding:14px 24px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;white-space:nowrap;
+  }
+  button.save:hover{background:var(--red-dk)}
+  button.save:active{transform:translateY(1px)}
+
+  /* ---- Reconocimientos ---- */
+  .awards{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-top:30px;overflow:hidden}
+  .awards-head{padding:18px 18px 12px;border-bottom:1px solid var(--line);background:var(--soft)}
+  .awards-head h2{font-family:'Libre Baskerville',serif;font-weight:700;font-size:22px}
+  .awards-head p{color:var(--muted);font-size:13px;margin-top:4px}
+  .award{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;border-top:1px solid var(--line)}
+  .award-name{font-size:15px;font-weight:500}
+  select{
+    appearance:none;-webkit-appearance:none;background-color:#fff;border:1px solid var(--line);color:var(--black);
+    border-radius:8px;padding:9px 32px 9px 12px;font-size:14px;font-family:inherit;cursor:pointer;min-width:158px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6460' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 11px center;
+  }
+  select:focus{outline:2px solid var(--red);outline-offset:1px;border-color:transparent}
+  @media (max-width:480px){
+    .award{flex-direction:column;align-items:stretch;gap:6px}
+    select{min-width:0;width:100%}
+  }
+
+  /* ---- Results ---- */
+  .results{margin-top:36px}
+  .results h2{font-family:'Libre Baskerville',serif;font-weight:700;font-size:26px}
+  .results .hint{color:var(--muted);font-size:13.5px;margin:4px 0 16px}
+  .rank{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .rank-row{
+    display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;
+    padding:14px 18px;border-top:1px solid var(--line);
+  }
+  .rank-row:first-child{border-top:none}
+  .pos{font-family:'Libre Baskerville',serif;font-weight:700;font-size:20px;color:var(--muted);text-align:center}
+  .pos.gold{color:var(--red)} .pos.silver{color:#8A8581} .pos.bronze{color:#B08968}
+  .rank-grade{font-weight:600;font-size:16px}
+  .rank-meta{font-size:12.5px;color:var(--muted)}
+  .rank-score{font-family:'Libre Baskerville',serif;font-weight:700;font-size:22px;color:var(--red)}
+  .rank-score small{font-size:12px;color:var(--muted);font-family:'Inter';font-weight:500}
+  .empty{padding:30px 18px;text-align:center;color:var(--muted);font-size:14px}
+
+  .toolbar{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  button.ghost{
+    background:#fff;border:1px solid var(--line);color:var(--muted);
+    padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  button.ghost:hover{border-color:var(--red);color:var(--black)}
+
+  footer{text-align:center;color:var(--muted);font-size:11.5px;margin-top:40px;letter-spacing:.04em}
+
+  .toast{
+    position:fixed;left:50%;bottom:24px;transform:translate(-50%,80px);
+    background:var(--green);color:#fff;padding:13px 22px;border-radius:10px;
+    font-weight:700;font-size:14.5px;opacity:0;transition:.28s;z-index:50;pointer-events:none;
+  }
+  .toast.show{transform:translate(-50%,0);opacity:1}
+  @media (max-width:480px){
+    .total-bar{flex-direction:column;align-items:stretch;text-align:center}
+    button.save{width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <svg class="crest" viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="4">
+    <polygon points="50,10 90,80 10,80"/>
+    <polygon points="50,30 73,72 27,72"/>
+  </svg>
+  <div class="institution">Institución Educativa María Mediadora</div>
+  <div class="place">Sabaneta · Antioquia</div>
+  <h1 class="serif">Evento Cultural y Deportivo</h1>
+  <div class="kicker">Interclases</div>
+  <div class="role">Hoja de calificación del jurado</div>
+  <div class="lema">Formamos en valores para la vida</div>
+</header>
+
+<div class="wrap">
+
+  <div class="guide">Califica cada criterio de <b>1 a 5</b>. El sistema promedia automáticamente y entrega la nota final sobre <b>5.0</b>.</div>
+
+  <div class="setup">
+    <label>
+      <span class="lbl">Nombre del jurado</span>
+      <input type="text" id="judge" placeholder="Ej. Profe Carolina" autocomplete="off">
+    </label>
+    <div>
+      <span class="lbl">Grado que evalúas</span>
+      <div class="grades" id="grades"></div>
+    </div>
+  </div>
+
+  <div id="cats"></div>
+
+  <div class="setup" style="margin-top:16px">
+    <label>
+      <span class="lbl">Observaciones (opcional)</span>
+      <textarea id="obs" placeholder="Comentarios sobre el grupo…"></textarea>
+    </label>
+  </div>
+
+  <div class="total-bar">
+    <div>
+      <div class="total-lbl">Nota final</div>
+      <div class="total-num" id="totalNum">3.0<small>/5.0</small></div>
+    </div>
+    <button class="save" id="saveBtn">Guardar evaluación</button>
+  </div>
+
+  <div class="awards">
+    <div class="awards-head">
+      <h2 class="serif">Reconocimientos especiales</h2>
+      <p>Postula un grado por categoría. Se envía <b>una sola vez por jurado</b>, aparte de la calificación de cada grado.</p>
+    </div>
+    <div id="awards"></div>
+    <div style="padding:16px 18px 18px">
+      <button class="save" id="sendAwards" style="width:100%">Enviar reconocimientos</button>
+    </div>
+  </div>
+
+  <div class="results">
+    <h2 class="serif">Resultados</h2>
+    <p class="hint">Ranking en vivo, promediando todas las evaluaciones guardadas por grado.</p>
+    <div class="rank" id="rank"><div class="empty">Aún no hay evaluaciones guardadas.</div></div>
+    <div class="toolbar">
+      <button class="ghost" id="exportBtn">Descargar CSV</button>
+      <button class="ghost" id="resetBtn">Borrar todo</button>
+    </div>
+  </div>
+
+  <footer>I.E. María Mediadora · Calle 50 Sur # 43A-89 · Sabaneta, Antioquia</footer>
+</div>
+
+<div class="toast" id="toast">Evaluación guardada</div>
+
+<script>
+const CATEGORIES = [
+  { id:'desfile',  name:'Desfile',        criteria:['Impacto','Vestuario','Organización'] },
+  { id:'sorpresa', name:'Punto sorpresa', criteria:['Impacto','Creatividad'] },
+  { id:'baile',    name:'Baile grupal',   criteria:['Impacto','Organización','Coordinación','Vestuario'] },
+  { id:'mascotas', name:'Mascotas',       criteria:['Impacto','Originalidad'] },
+];
+const GRADES = ['Sexto','Séptimo','Octavo','Noveno','Décimo','Once'];
+const MIN=1, MAX=5, DEF=3;
+const KEY = 'evaluaciones_mediadora_evento';
+// ↓↓↓ Pega aquí la URL del Web App de Google (termina en /exec) ↓↓↓
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbx8sgEUOxKYnitwO2ypDejiT_Zr0P5DcUxICvZZ7fjLXid1vpicvJkjqxXEGV4rt0Te/exec";
+
+let selectedGrade = null;
+let scores = {};
+let saved = [];
+CATEGORIES.forEach(c => scores[c.id] = c.criteria.map(()=>DEF));
+
+const gradesEl = document.getElementById('grades');
+GRADES.forEach(g=>{
+  const b=document.createElement('button');
+  b.className='grade';b.textContent=g;
+  b.onclick=()=>{selectedGrade=g;[...gradesEl.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');};
+  gradesEl.appendChild(b);
+});
+
+const catsEl = document.getElementById('cats');
+CATEGORIES.forEach(cat=>{
+  const card=document.createElement('div');card.className='cat';
+  let crit='';
+  cat.criteria.forEach((name,i)=>{
+    crit+=`<div class="crit">
+      <div class="crit-top"><span class="crit-name">${name}</span><span class="crit-val" id="v-${cat.id}-${i}">${DEF}</span></div>
+      <div class="slider-row">
+        <span class="end">Bajo</span>
+        <input type="range" min="${MIN}" max="${MAX}" value="${DEF}" id="r-${cat.id}-${i}" data-cat="${cat.id}" data-i="${i}">
+        <span class="end">Superior</span>
+      </div>
+    </div>`;
+  });
+  card.innerHTML=`<div class="cat-head"><h2>${cat.name}</h2><div class="cat-score" id="cs-${cat.id}">${DEF.toFixed(1)}<small>/5</small></div></div>${crit}`;
+  catsEl.appendChild(card);
+});
+
+catsEl.querySelectorAll('input[type=range]').forEach(r=>{
+  r.addEventListener('input',()=>{
+    const cat=r.dataset.cat, i=+r.dataset.i, val=+r.value;
+    scores[cat][i]=val;
+    document.getElementById(`v-${cat}-${i}`).textContent=val;
+    updateCat(cat);updateTotal();
+  });
+});
+
+function catAvg(id){const a=scores[id];return a.reduce((s,x)=>s+x,0)/a.length;}
+function updateCat(id){document.getElementById(`cs-${id}`).innerHTML=catAvg(id).toFixed(1)+'<small>/5</small>';}
+function overall(){return CATEGORIES.reduce((s,c)=>s+catAvg(c.id),0)/CATEGORIES.length;}
+function updateTotal(){document.getElementById('totalNum').innerHTML=overall().toFixed(1)+'<small>/5.0</small>';}
+CATEGORIES.forEach(c=>updateCat(c.id));updateTotal();
+
+const toast=document.getElementById('toast');
+function ping(m){toast.textContent=m;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1900);}
+
+document.getElementById('saveBtn').onclick=async()=>{
+  const judge=document.getElementById('judge').value.trim();
+  if(!judge){ping('Escribe el nombre del jurado');return;}
+  if(!selectedGrade){ping('Selecciona un grado');return;}
+  const obs=document.getElementById('obs').value.trim();
+  const entry={
+    judge, grade:selectedGrade, total:+overall().toFixed(2),
+    cats:Object.fromEntries(CATEGORIES.map(c=>[c.id,+catAvg(c.id).toFixed(2)])),
+    obs, ts:Date.now()
+  };
+  saved.push(entry);
+  await persist(); renderRank(); sendToServer(entry);
+  ping('Evaluación enviada');
+  CATEGORIES.forEach(c=>{
+    scores[c.id]=c.criteria.map(()=>DEF);
+    c.criteria.forEach((_,i)=>{document.getElementById(`r-${c.id}-${i}`).value=DEF;document.getElementById(`v-${c.id}-${i}`).textContent=DEF;});
+    updateCat(c.id);
+  });
+  document.getElementById('obs').value='';
+  updateTotal();
+};
+
+function sendToServer(entry){
+  if(!WEBAPP_URL || WEBAPP_URL.indexOf('http')!==0) return; // aún sin configurar
+  try{
+    fetch(WEBAPP_URL,{method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(entry)});
+  }catch(e){console.warn('Envío falló',e);}
+}
+
+/* ---- Reconocimientos especiales (una vez por jurado) ---- */
+const AWARDS=[
+  {id:'desfile',       name:'Mejor desfile de presentación'},
+  {id:'puntoSorpresa', name:'Mejor punto sorpresa'},
+  {id:'puntoArtistico',name:'Mejor punto artístico'},
+  {id:'baile',         name:'Mejor baile grupal'},
+  {id:'mascota',       name:'Mejor mascota'},
+  {id:'carteles',      name:'Mejores carteles'},
+  {id:'decoracion',    name:'Mejor decoración'},
+  {id:'unido',         name:'Grupo más unido'},
+];
+const awardsEl=document.getElementById('awards');
+AWARDS.forEach(a=>{
+  const row=document.createElement('div');row.className='award';
+  const opts='<option value="">— Selecciona —</option>'+GRADES.map(g=>`<option>${g}</option>`).join('');
+  row.innerHTML=`<span class="award-name">${a.name}</span><select id="aw-${a.id}">${opts}</select>`;
+  awardsEl.appendChild(row);
+});
+document.getElementById('sendAwards').onclick=()=>{
+  const judge=document.getElementById('judge').value.trim();
+  if(!judge){ping('Escribe el nombre del jurado');return;}
+  const picks={};let any=false;
+  AWARDS.forEach(a=>{const v=document.getElementById('aw-'+a.id).value;picks[a.id]=v;if(v)any=true;});
+  if(!any){ping('Selecciona al menos un reconocimiento');return;}
+  sendToServer({tipo:'reconocimiento',judge,picks,ts:Date.now()});
+  ping('Reconocimientos enviados');
+};
+
+function renderRank(){
+  const el=document.getElementById('rank');
+  if(!saved.length){el.innerHTML='<div class="empty">Aún no hay evaluaciones guardadas.</div>';return;}
+  const byGrade={};
+  saved.forEach(e=>{(byGrade[e.grade]=byGrade[e.grade]||[]).push(e.total);});
+  const rows=Object.entries(byGrade).map(([grade,arr])=>({grade,avg:arr.reduce((s,x)=>s+x,0)/arr.length,n:arr.length})).sort((a,b)=>b.avg-a.avg);
+  const medal=['gold','silver','bronze'];
+  el.innerHTML=rows.map((r,i)=>`
+    <div class="rank-row">
+      <div class="pos ${medal[i]||''}">${i+1}</div>
+      <div><div class="rank-grade">${r.grade}</div><div class="rank-meta">${r.n} ${r.n===1?'evaluación':'evaluaciones'}</div></div>
+      <div class="rank-score">${r.avg.toFixed(1)}<small>/5.0</small></div>
+    </div>`).join('');
+}
+
+async function persist(){try{await window.storage.set(KEY,JSON.stringify(saved),false);}catch(e){console.warn(e);}}
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)saved=JSON.parse(r.value);}catch(e){saved=[];}renderRank();}
+
+document.getElementById('exportBtn').onclick=()=>{
+  if(!saved.length){ping('No hay datos para exportar');return;}
+  const head=['Jurado','Grado','Nota /5',...CATEGORIES.map(c=>c.name+' /5'),'Observaciones','Fecha'];
+  const lines=saved.map(e=>[e.judge,e.grade,e.total,...CATEGORIES.map(c=>e.cats[c.id]??''),e.obs||'',new Date(e.ts).toLocaleString('es-CO')]
+    .map(x=>`"${String(x).replace(/"/g,'""')}"`).join(','));
+  const csv=[head.join(','),...lines].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='resultados-evento-cultural.csv';a.click();
+};
+
+document.getElementById('resetBtn').onclick=async()=>{
+  if(!saved.length)return;
+  if(!confirm('¿Borrar todas las evaluaciones guardadas? Esta acción no se puede deshacer.'))return;
+  saved=[];try{await window.storage.delete(KEY,false);}catch(e){}renderRank();ping('Resultados borrados');
+};
+
+load();
+</script>
+</body>
+</html>
